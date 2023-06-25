@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XadrezConsole.Tabuleiro
+namespace Tabuleiro
 {
+    //Enum color
     internal enum Color
     {
         Branca,

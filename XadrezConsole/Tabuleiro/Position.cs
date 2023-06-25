@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,17 +9,18 @@ namespace Tabuleiro
 {
     internal class Position
     {
-        public int Linha { get; set; }
-        public int Coluna { get; set; }
+        public int Line{ get; set; }
+        public int Column { get; set; }
 
-        public Position(int linha, int coluna)
+        //Construtor principal da classe
+        public Position(int linha, int column)
         {
-            Linha = linha;
-            Coluna = coluna;
+            Line = linha;
+            Column = column;
         }
         public override string ToString()
         {
-            return Linha + ", " + Coluna;
+            return Line + ", " + Column;
         }
 
     }
