@@ -14,7 +14,10 @@
             Tab = tab;
             Color = color;
             this.QteMovimentos = 0;
-
+        }
+        public void InclementMoviment()//funçao que inclementa a quantidade de movimento da paça
+        {
+            QteMovimentos++;
         }
     }
 }

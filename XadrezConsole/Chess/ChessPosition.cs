@@ -18,7 +18,7 @@ namespace Chess
             Line = line;
         }
 
-        public Position toPosition()//metodo para convertar as posiçoes para a matriz
+        public Position ToPosition()//metodo para convertar as posiçoes para a matriz
         {
             return new Position(8 - Line, Column - 'a');
         }

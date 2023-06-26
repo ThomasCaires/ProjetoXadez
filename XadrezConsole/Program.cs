@@ -8,16 +8,24 @@ internal class Program
     {
         try
         {
-            Table tab = new Table (8, 8);
+            ChessCore core = new ChessCore();
 
-            tab.ColocarPeca(new Rook(tab, Color.White), new Position(0, 0));
-            tab.ColocarPeca(new Rook(tab, Color.Black), new Position(3, 3));
-            tab.ColocarPeca(new King(tab, Color.Black), new Position(4, 3));
+            while (!core.Over)
+            {
+                Console.Clear();
+                Screen.ImprimirTabuleiro(core.Tab);
+                
+                Console.Write("origem ");
+                Position origin = Screen.ReadPosition().ToPosition();
+                Console.Write("Destino ");
+                Position destination = Screen.ReadPosition().ToPosition();
 
-            Screen.ImprimirTabuleiro(tab);
+                core.ExeMoviment(origin, destination);
+            }
             Console.ReadLine();
         }
-        catch (TableException e) {
+        catch (TableException e)
+        {
             Console.WriteLine(e.Message);
         }
 

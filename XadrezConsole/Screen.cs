@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Chess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using Tabuleiro;
 
@@ -22,7 +24,7 @@ namespace XadrezConsole
                     }
                     else //caso a posiçao nao seja nula a peça sera impressa
                     {
-                        imprimirPeca(tab.Piece(i,j));//chamando metodo para imrimir tela
+                        ImprimirPeca(tab.Piece(i, j));//chamando metodo para imrimir tela
                         Console.Write(" ");
                     }
                 }
@@ -30,9 +32,16 @@ namespace XadrezConsole
             }
             Console.WriteLine("  a b c d e f g h");
         }
-        public static void imprimirPeca(ChessPiece Piece)
+        public static ChessPosition ReadPosition()//metodo para ler a posiçao desejada
         {
-            if(Piece.Color == Color.White)
+            string s = Console.ReadLine();
+            char c = s[0];
+            int l = int.Parse(s[1] + "");//forçando int l a ser uma string
+            return new ChessPosition(c, l);
+        }
+        public static void ImprimirPeca(ChessPiece Piece)
+        {
+            if (Piece.Color == Color.White)
             {
                 Console.Write(Piece);
             }

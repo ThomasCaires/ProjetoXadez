@@ -45,6 +45,17 @@ namespace Tabuleiro
             Pieces[pos.Line, pos.Column] = p;//colocando peça p na matriz de peças na posiçao desejada
             p.Position = pos;
         }
+        public ChessPiece Retirarpeca(Position pos)
+        {
+            if (Piece(pos) == null)
+            {
+                return null;
+            }
+            ChessPiece aux = Piece(pos);
+            aux.Position = null;
+            Pieces[pos.Line, pos.Column] = null;
+            return aux;
+        }
         public bool ValidPosition(Position pos)//testando se a posiçao é valida
         {
             if (pos.Line < 0 || pos.Line >= Lines || pos.Column < 0 || pos.Column >= Columns)
