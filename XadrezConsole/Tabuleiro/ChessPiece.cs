@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tabuleiro
+﻿namespace Tabuleiro
 {
     internal class ChessPiece//Peça de xadrez
     {
@@ -14,13 +8,13 @@ namespace Tabuleiro
         public Table Tab { get; protected set; }
 
         //Construtor principal da classe
-        public ChessPiece(Position position, Table tab, Color color)
+        public ChessPiece(Table tab, Color color)
         {
-            Position = position;
+            Position = null!;//position nao sera nulo mas iniciara nulo
             Tab = tab;
             Color = color;
             this.QteMovimentos = 0;
-     
+
         }
     }
 }

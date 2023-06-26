@@ -9,7 +9,7 @@ namespace Tabuleiro
     //Enum color
     internal enum Color
     {
-        Branca,
-        Preta,
+        Black,
+        White,
     }
 }

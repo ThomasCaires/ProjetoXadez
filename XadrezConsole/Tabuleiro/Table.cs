@@ -25,5 +25,10 @@ namespace Tabuleiro
         {
             return Pieces[line, column];
         }
+        public void ColocarPeca (ChessPiece p, Position pos)
+        {
+            Pieces[pos.Line, pos.Column] = p;//colocando peça p na matriz de peças na posiçao desejada
+            p.Position = pos;
+        }
     }
 }
