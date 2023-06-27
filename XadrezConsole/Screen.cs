@@ -18,19 +18,36 @@ namespace XadrezConsole
                 Console.Write(8 - i + " ");
                 for (int j = 0; j < tab.Columns; j++)
                 {
-                    if (tab.Piece(i, j) == null)//testendo se não tem nenhuma peça na posição
-                    {
-                        Console.Write("- ");
-                    }
-                    else //caso a posiçao nao seja nula a peça sera impressa
-                    {
-                        ImprimirPeca(tab.Piece(i, j));//chamando metodo para imrimir tela
-                        Console.Write(" ");
-                    }
+                    ImprimirPeca(tab.Piece(i, j));//chamando metodo para imrimir tela
                 }
                 Console.WriteLine();
             }
             Console.WriteLine("  a b c d e f g h");
+        }
+        public static void ImprimirTabuleiro(Table tab, bool[,] PosiblePos) //imprime o tabuleiro na tela
+        {
+            ConsoleColor Def = Console.BackgroundColor;
+            ConsoleColor Alt = ConsoleColor.DarkGray;
+            for (int i = 0; i < tab.Lines; i++)
+            {
+                Console.Write(8 - i + " ");
+                for (int j = 0; j < tab.Columns; j++)
+                {
+                    if (PosiblePos[i, j] == true)
+                    {
+                        Console.BackgroundColor = Alt;
+                    }
+                    else
+                    {
+                        Console.BackgroundColor = Def;
+                    }
+                    ImprimirPeca(tab.Piece(i, j));//chamando metodo para imrimir tela
+                    Console.BackgroundColor = Def;
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine("  a b c d e f g h");
+            Console.BackgroundColor = Def;
         }
         public static ChessPosition ReadPosition()//metodo para ler a posiçao desejada
         {
@@ -41,16 +58,25 @@ namespace XadrezConsole
         }
         public static void ImprimirPeca(ChessPiece Piece)
         {
-            if (Piece.Color == Color.White)
+            if (Piece == null)//testendo se não tem nenhuma peça na posição
             {
-                Console.Write(Piece);
+                Console.Write("- ");
             }
             else
             {
-                ConsoleColor aux = Console.ForegroundColor;//tipo que muda a cor do terminal
-                Console.ForegroundColor = ConsoleColor.Red;//definindo a cpr das éças pretas como vermelho
-                Console.Write(Piece);
-                Console.ForegroundColor = aux;//voltando para cor original
+                if (Piece.Color == Color.White)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(Piece);
+                }
+                else
+                {
+                    ConsoleColor aux = Console.ForegroundColor;//tipo que muda a cor do terminal
+                    Console.ForegroundColor = ConsoleColor.Black;//definindo a cor das peças pretas como vermelho
+                    Console.Write(Piece);
+                    Console.ForegroundColor = aux;//voltando para cor original
+                }
+                Console.Write(" ");
             }
         }
     }

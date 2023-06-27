@@ -18,7 +18,12 @@ namespace Tabuleiro
             Line = linha;
             Column = column;
         }
-        public override string ToString()
+        public void DefinirValores(int linha, int column)
+        {
+            Line = linha;
+            Column = column;
+        }
+    public override string ToString()
         {
             return Line + ", " + Column;
         }

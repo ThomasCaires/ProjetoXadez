@@ -1,6 +1,6 @@
 ﻿namespace Tabuleiro
 {
-    internal class ChessPiece//Peça de xadrez
+    abstract class ChessPiece//Peça de xadrez
     {
         public Position Position { get; set; }
         public Color Color { get; protected set; }
@@ -15,7 +15,8 @@
             Color = color;
             this.QteMovimentos = 0;
         }
-        public void InclementMoviment()//funçao que inclementa a quantidade de movimento da paça
+        public abstract bool[,] PosibleMov();
+        public void InclementMoviment()
         {
             QteMovimentos++;
         }
