@@ -15,10 +15,29 @@
             Color = color;
             this.QteMovimentos = 0;
         }
-        public abstract bool[,] PosibleMov();
         public void InclementMoviment()
         {
             QteMovimentos++;
         }
+        public bool ExistMove()
+        {
+            bool[,] mat = PosibleMov();
+            for (int i = 0; i < Tab.Lines; i++)
+            {
+                for (int j = 0; j < Tab.Lines; j++)
+                {
+                    if (mat[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        public bool CanMoveTo(Position pos)
+        {
+            return PosibleMov()[pos.Line,pos.Column];
+        }
+        public abstract bool[,] PosibleMov();
     }
 }
