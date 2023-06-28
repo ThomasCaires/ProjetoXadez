@@ -14,13 +14,8 @@ internal class Program
             {
                 try
                 {
-                    Console.BackgroundColor = ConsoleColor.DarkMagenta;
                     Console.Clear();
-                    Screen.ImprimirTabuleiro(core.Tab);
-                    Console.WriteLine();
-                    Console.WriteLine("Turno" + core.Turn);
-                    Console.WriteLine("Aguandando jogada :" + core.APlayer);
-
+                    Screen.ImprimirPartida(core);
 
                     Console.WriteLine();
                     Console.Write("Origem ");

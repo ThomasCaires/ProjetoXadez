@@ -13,28 +13,36 @@ namespace Chess
         public int Turn { get; private set; }
         public Color APlayer { get; set; }
         public bool Over { get; private set; }
+        private HashSet<ChessPiece> Pieces;//conjunto de peças
+        private HashSet<ChessPiece> Captured;//conjunto de peças capturadas
 
         public ChessCore()
         {
             Tab = new Table(8, 8);
             Turn = 1;
             APlayer = Color.White;
+            Pieces = new HashSet<ChessPiece>();
+            Captured = new HashSet<ChessPiece>();
             ColocarPecas();
         }
-        public void ExeMoviment(Position Origin, Position Destination)
+        public void ExeMoviment(Position Origin, Position Destination)//metodo que executa o movimento
         {
             ChessPiece P = Tab.Retirarpeca(Origin);
             P.InclementMoviment();
             ChessPiece CapturePiece = Tab.Retirarpeca(Destination);
             Tab.ColocarPeca(P, Destination);
+            if (CapturePiece != null)
+            {
+                Captured.Add(CapturePiece);
+            }
         }
-        public void ExePlay(Position Origin, Position Destination)
+        public void ExePlay(Position Origin, Position Destination)//metodo que chama ExeMoviment, passa de turno e muda o jogador
         {
             ExeMoviment(Origin, Destination);
             Turn++;
             ChangePlayer();
         }
-        public void ValidOriginPos(Position pos)
+        public void ValidOriginPos(Position pos)//metodo para validar a posiçao de origem, caso seja invalida tratar a exceção
         {
             if (Tab.Piece(pos) == null)
             {
@@ -49,7 +57,7 @@ namespace Chess
                 throw new TableException("Não ha movimentos possiveis para peça escolhida");
             }
         }
-        public void ValidDestinationPos(Position Origin, Position Destination)
+        public void ValidDestinationPos(Position Origin, Position Destination)//metodo para validar a posiçao de destino, caso seja invalida tratar a exceção
         {
             if (!Tab.Piece(Origin).CanMoveTo(Destination))
             {
@@ -67,21 +75,52 @@ namespace Chess
                 APlayer = Color.White;
             }
         }
+        public HashSet<ChessPiece> Capturedpieces(Color color)
+        {
+            HashSet<ChessPiece> aux = new HashSet<ChessPiece>();
+            foreach (ChessPiece p in Captured)
+            {
+                if(p.Color == color)
+                {
+                    aux.Add(p);
+                }
+            }
+            return aux;
+        }
+        public HashSet<ChessPiece> Ingamepiece(Color color)
+        {
+            HashSet<ChessPiece> aux = new HashSet<ChessPiece>();
+            foreach (ChessPiece p in Pieces)
+            {
+                if (p.Color == color)
+                {
+                    aux.Add(p);
+                }
+            }
+            aux.ExceptWith(Capturedpieces(color));
+            return aux;
+        }
+        public void PutNewPiece(char column, int line, ChessPiece piece)//novo metodp para colocar as peças no tabuleiro, agora alem de seram onstanciadas serão guardadas em um conjunto chamado Pieces
+        {
+            Tab.ColocarPeca(piece, new ChessPosition(column, line).ToPosition());
+            Pieces.Add(piece);
+        }
         private void ColocarPecas()//colocando as peças dentro da classe core
         {
-            Tab.ColocarPeca(new Rook(Tab, Color.White), new ChessPosition('c', 1).ToPosition());
-            Tab.ColocarPeca(new Rook(Tab, Color.White), new ChessPosition('c', 2).ToPosition());
-            Tab.ColocarPeca(new Rook(Tab, Color.White), new ChessPosition('d', 2).ToPosition());
-            Tab.ColocarPeca(new Rook(Tab, Color.White), new ChessPosition('e', 2).ToPosition());
-            Tab.ColocarPeca(new Rook(Tab, Color.White), new ChessPosition('e', 1).ToPosition());
-            Tab.ColocarPeca(new King(Tab, Color.White), new ChessPosition('d', 1).ToPosition());
-
-            Tab.ColocarPeca(new Rook(Tab, Color.Black), new ChessPosition('c', 7).ToPosition());
-            Tab.ColocarPeca(new Rook(Tab, Color.Black), new ChessPosition('c', 8).ToPosition());
-            Tab.ColocarPeca(new Rook(Tab, Color.Black), new ChessPosition('d', 7).ToPosition());
-            Tab.ColocarPeca(new Rook(Tab, Color.Black), new ChessPosition('e', 7).ToPosition());
-            Tab.ColocarPeca(new Rook(Tab, Color.Black), new ChessPosition('e', 8).ToPosition());
-            Tab.ColocarPeca(new King(Tab, Color.Black), new ChessPosition('d', 8).ToPosition());
+            //brancas
+            PutNewPiece('c', 1, new Rook(Tab, Color.White));
+            PutNewPiece('c', 2, new Rook(Tab, Color.White));
+            PutNewPiece('d', 2, new Rook(Tab, Color.White));
+            PutNewPiece('e', 2, new Rook(Tab, Color.White));
+            PutNewPiece('e', 1, new Rook(Tab, Color.White));
+            PutNewPiece('d', 1, new King(Tab, Color.White));
+            //pretas
+            PutNewPiece('c', 7, new Rook(Tab, Color.Black));
+            PutNewPiece('c', 8, new Rook(Tab, Color.Black));
+            PutNewPiece('d', 7, new Rook(Tab, Color.Black));
+            PutNewPiece('e', 7, new Rook(Tab, Color.Black));
+            PutNewPiece('e', 8, new Rook(Tab, Color.Black));
+            PutNewPiece('d', 8, new King(Tab, Color.Black));
         }
     }
 }

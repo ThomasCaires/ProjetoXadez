@@ -11,6 +11,35 @@ namespace XadrezConsole
 {
     class Screen
     {
+
+        public static void ImprimirPartida(ChessCore game) //metodo melhorado para imprimir a partida
+        {
+            Console.BackgroundColor = ConsoleColor.DarkMagenta;            
+            Screen.ImprimirTabuleiro(game.Tab);
+            PrintCapturedPieces(game);
+            Console.WriteLine();
+            Console.WriteLine("Turno" + game.Turn);
+            Console.WriteLine("Aguandando jogada :" + game.APlayer);
+        }
+        public static void PrintCapturedPieces(ChessCore game)
+        {
+            Console.WriteLine("Peças capturadas");
+            Console.Write("Brancas: ");
+            Printh(game.Capturedpieces(Color.White));
+            Console.WriteLine();
+            Console.Write("Pretas: ");
+            Printh(game.Capturedpieces(Color.Black));
+            Console.WriteLine();
+        }
+        public static void Printh(HashSet<ChessPiece> group)
+        {
+            Console.Write("[");
+            foreach (ChessPiece item in group)
+            {
+                Console.Write(item + " ");
+            }
+            Console.Write("]");
+        }
         public static void ImprimirTabuleiro(Table tab) //imprime o tabuleiro na tela
         {
             for (int i = 0; i < tab.Lines; i++)
