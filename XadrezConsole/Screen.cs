@@ -20,6 +20,10 @@ namespace XadrezConsole
             Console.WriteLine();
             Console.WriteLine("Turno" + game.Turn);
             Console.WriteLine("Aguandando jogada :" + game.APlayer);
+            if (game.xeque)
+            {
+                Console.WriteLine("XEQUE");
+            }
         }
         public static void PrintCapturedPieces(ChessCore game)
         {

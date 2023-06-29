@@ -19,6 +19,10 @@
         {
             QteMovimentos++;
         }
+        public void DenclementMoviment()
+        {
+            QteMovimentos--;
+        }
         public bool ExistMove()
         {
             bool[,] mat = PosibleMov();

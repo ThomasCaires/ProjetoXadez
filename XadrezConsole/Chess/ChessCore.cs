@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using Tabuleiro;
@@ -12,6 +13,7 @@ namespace Chess
         public Table Tab { get; private set; } = null!;
         public int Turn { get; private set; }
         public Color APlayer { get; set; }
+        public bool xeque { get; private set; }
         public bool Over { get; private set; }
         private HashSet<ChessPiece> Pieces;//conjunto de peças
         private HashSet<ChessPiece> Captured;//conjunto de peças capturadas
@@ -21,24 +23,53 @@ namespace Chess
             Tab = new Table(8, 8);
             Turn = 1;
             APlayer = Color.White;
+            xeque = false;
             Pieces = new HashSet<ChessPiece>();
             Captured = new HashSet<ChessPiece>();
             ColocarPecas();
         }
-        public void ExeMoviment(Position Origin, Position Destination)//metodo que executa o movimento
+        public ChessPiece ExeMoviment(Position Origin, Position Destination)//metodo que executa o movimento
         {
-            ChessPiece P = Tab.Retirarpeca(Origin);
-            P.InclementMoviment();
-            ChessPiece CapturePiece = Tab.Retirarpeca(Destination);
-            Tab.ColocarPeca(P, Destination);
-            if (CapturePiece != null)
+            ChessPiece p = Tab.Retirarpeca(Origin);
+            p.InclementMoviment();
+            ChessPiece pecaCapturada = Tab.Retirarpeca(Destination);
+            Tab.ColocarPeca(p, Destination);
+            if (pecaCapturada != null)
             {
-                Captured.Add(CapturePiece);
+                Captured.Add(pecaCapturada);
             }
+            return pecaCapturada;
+        }
+        public void desfazMovimento(Position origem, Position destino, ChessPiece pecaCapturada)
+        {
+            ChessPiece p = Tab.Retirarpeca(destino);
+            p.DenclementMoviment();
+            if (pecaCapturada != null)
+            {
+                Tab.ColocarPeca(pecaCapturada, destino);
+                Captured.Remove(pecaCapturada);
+            }
+            Tab.ColocarPeca(p, origem);
         }
         public void ExePlay(Position Origin, Position Destination)//metodo que chama ExeMoviment, passa de turno e muda o jogador
         {
-            ExeMoviment(Origin, Destination);
+           ChessPiece pecaCapturada = ExeMoviment(Origin, Destination);
+
+            if (estaEmXeque(APlayer))
+            {
+                desfazMovimento(Origin, Destination, pecaCapturada);
+                throw new TableException("Você não pode se colocar em xeque!");
+            }
+
+            if (estaEmXeque(adversaria(APlayer)))
+            {
+                xeque = true;
+            }
+            else
+            {
+                xeque = false;
+            }
+
             Turn++;
             ChangePlayer();
         }
@@ -80,7 +111,7 @@ namespace Chess
             HashSet<ChessPiece> aux = new HashSet<ChessPiece>();
             foreach (ChessPiece p in Captured)
             {
-                if(p.Color == color)
+                if (p.Color == color)
                 {
                     aux.Add(p);
                 }
@@ -99,6 +130,47 @@ namespace Chess
             }
             aux.ExceptWith(Capturedpieces(color));
             return aux;
+        }
+        private Color adversaria(Color color)
+        {
+            if (color == Color.White)
+            {
+                return Color.Black;
+            }
+            else
+            {
+                return Color.White;
+            }
+        }
+
+        private ChessPiece rei(Color color)
+        {
+            foreach (ChessPiece x in Ingamepiece(color))
+            {
+                if (x is King)
+                {
+                    return x;
+                }
+            }
+            return null;
+        }
+
+        public bool estaEmXeque(Color color)
+        {
+            ChessPiece R = rei(color);
+            if (R == null)
+            {
+                throw new TableException($"Não tem rei da cor {color} no tabuleiro!");
+            }
+            foreach (ChessPiece x in Ingamepiece(adversaria(color)))
+            {
+                bool[,] mat = x.PosibleMov();
+                if (mat[R.Position.Line, R.Position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         public void PutNewPiece(char column, int line, ChessPiece piece)//novo metodp para colocar as peças no tabuleiro, agora alem de seram onstanciadas serão guardadas em um conjunto chamado Pieces
         {
