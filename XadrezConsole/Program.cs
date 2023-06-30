@@ -38,7 +38,8 @@ internal class Program
                     Console.ReadLine();
                 }
             }
-            Console.ReadLine();
+            Console.Clear();
+            Screen.ImprimirPartida(core);
         }
         catch (TableException e)
         {

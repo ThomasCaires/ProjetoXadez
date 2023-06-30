@@ -19,10 +19,20 @@ namespace XadrezConsole
             PrintCapturedPieces(game);
             Console.WriteLine();
             Console.WriteLine("Turno" + game.Turn);
-            Console.WriteLine("Aguandando jogada :" + game.APlayer);
-            if (game.xeque)
+            if (!game.Over)
             {
-                Console.WriteLine("XEQUE");
+
+
+                Console.WriteLine("Aguandando jogada :" + game.APlayer);
+                if (game.xeque)
+                {
+                    Console.WriteLine("XEQUE");
+                }
+            }
+            else
+            {
+                Console.WriteLine("XEQUEMATE");
+                    Console.WriteLine($"VENCEDOR: {game.APlayer}");
             }
         }
         public static void PrintCapturedPieces(ChessCore game)

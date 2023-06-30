@@ -24,6 +24,7 @@ namespace Chess
             Turn = 1;
             APlayer = Color.White;
             xeque = false;
+            Over= false;
             Pieces = new HashSet<ChessPiece>();
             Captured = new HashSet<ChessPiece>();
             ColocarPecas();
@@ -53,7 +54,7 @@ namespace Chess
         }
         public void ExePlay(Position Origin, Position Destination)//metodo que chama ExeMoviment, passa de turno e muda o jogador
         {
-           ChessPiece pecaCapturada = ExeMoviment(Origin, Destination);
+            ChessPiece pecaCapturada = ExeMoviment(Origin, Destination);
 
             if (estaEmXeque(APlayer))
             {
@@ -69,9 +70,15 @@ namespace Chess
             {
                 xeque = false;
             }
-
-            Turn++;
-            ChangePlayer();
+            if (testeXequemate(adversaria(APlayer)))
+            {
+                Over = true;
+            }
+            else
+            {
+                Turn++;
+                ChangePlayer();
+            }
         }
         public void ValidOriginPos(Position pos)//metodo para validar a posiçao de origem, caso seja invalida tratar a exceção
         {
@@ -172,6 +179,37 @@ namespace Chess
             }
             return false;
         }
+        public bool testeXequemate(Color cor)
+        {
+            if (!estaEmXeque(cor))
+            {
+                return false;
+            }
+            foreach (ChessPiece x in Ingamepiece(cor))
+            {
+                bool[,] mat = x.PosibleMov();
+                for (int i = 0; i < Tab.Lines; i++)
+                {
+                    for (int j = 0; j < Tab.Columns; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Position origem = x.Position;
+                            Position destino = new Position(i, j);
+                            ChessPiece pecaCapturada = ExeMoviment(origem, destino);
+                            bool testeXeque = estaEmXeque(cor);
+                            desfazMovimento(origem, destino, pecaCapturada);
+                            if (!testeXeque)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
         public void PutNewPiece(char column, int line, ChessPiece piece)//novo metodp para colocar as peças no tabuleiro, agora alem de seram onstanciadas serão guardadas em um conjunto chamado Pieces
         {
             Tab.ColocarPeca(piece, new ChessPosition(column, line).ToPosition());
