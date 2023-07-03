@@ -32,7 +32,8 @@ namespace XadrezConsole
             else
             {
                 Console.WriteLine("XEQUEMATE");
-                    Console.WriteLine($"VENCEDOR: {game.APlayer}");
+                    Console.WriteLine($"VENCEDOR:" +
+                        $" {game.APlayer}");
             }
         }
         public static void PrintCapturedPieces(ChessCore game)

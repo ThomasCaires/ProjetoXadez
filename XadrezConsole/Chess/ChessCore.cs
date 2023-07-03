@@ -24,7 +24,7 @@ namespace Chess
             Turn = 1;
             APlayer = Color.White;
             xeque = false;
-            Over= false;
+            Over = false;
             Pieces = new HashSet<ChessPiece>();
             Captured = new HashSet<ChessPiece>();
             ColocarPecas();
@@ -218,19 +218,39 @@ namespace Chess
         private void ColocarPecas()//colocando as peças dentro da classe core
         {
             //brancas
-            PutNewPiece('c', 1, new Rook(Tab, Color.White));
-            PutNewPiece('c', 2, new Rook(Tab, Color.White));
-            PutNewPiece('d', 2, new Rook(Tab, Color.White));
-            PutNewPiece('e', 2, new Rook(Tab, Color.White));
-            PutNewPiece('e', 1, new Rook(Tab, Color.White));
-            PutNewPiece('d', 1, new King(Tab, Color.White));
+            PutNewPiece('a', 1, new Rook(Tab, Color.White));
+            PutNewPiece('b', 1, new Knight(Tab, Color.White));
+            PutNewPiece('c', 1, new Bishop(Tab, Color.White));
+            PutNewPiece('d', 1, new Queen(Tab, Color.White));
+            PutNewPiece('e', 1, new King(Tab, Color.White));
+            PutNewPiece('f', 1, new Bishop(Tab, Color.White));
+            PutNewPiece('g', 1, new Knight(Tab, Color.White));
+            PutNewPiece('h', 1, new Rook(Tab, Color.White));
+            PutNewPiece('a', 2, new Pawn(Tab, Color.White));
+            PutNewPiece('b', 2, new Pawn(Tab, Color.White));
+            PutNewPiece('c', 2, new Pawn(Tab, Color.White));
+            PutNewPiece('d', 2, new Pawn(Tab, Color.White));
+            PutNewPiece('e', 2, new Pawn(Tab, Color.White));
+            PutNewPiece('f', 2, new Pawn(Tab, Color.White));
+            PutNewPiece('g', 2, new Pawn(Tab, Color.White));
+            PutNewPiece('h', 2, new Pawn(Tab, Color.White));
             //pretas
-            PutNewPiece('c', 7, new Rook(Tab, Color.Black));
-            PutNewPiece('c', 8, new Rook(Tab, Color.Black));
-            PutNewPiece('d', 7, new Rook(Tab, Color.Black));
-            PutNewPiece('e', 7, new Rook(Tab, Color.Black));
-            PutNewPiece('e', 8, new Rook(Tab, Color.Black));
-            PutNewPiece('d', 8, new King(Tab, Color.Black));
+            PutNewPiece('a', 8, new Rook(Tab, Color.Black));
+            PutNewPiece('b', 8, new Knight(Tab, Color.Black));
+            PutNewPiece('c', 8, new Bishop(Tab, Color.Black));
+            PutNewPiece('d', 8, new Queen(Tab, Color.Black));
+            PutNewPiece('e', 8, new King(Tab, Color.Black));
+            PutNewPiece('f', 8, new Bishop(Tab, Color.Black));
+            PutNewPiece('g', 8, new Knight(Tab, Color.Black));
+            PutNewPiece('h', 8, new Rook(Tab, Color.Black));
+            PutNewPiece('a', 7, new Pawn(Tab, Color.Black));
+            PutNewPiece('b', 7, new Pawn(Tab, Color.Black));
+            PutNewPiece('c', 7, new Pawn(Tab, Color.Black));
+            PutNewPiece('d', 7, new Pawn(Tab, Color.Black));
+            PutNewPiece('e', 7, new Pawn(Tab, Color.Black));
+            PutNewPiece('f', 7, new Pawn(Tab, Color.Black));
+            PutNewPiece('g', 7, new Pawn(Tab, Color.Black));
+            PutNewPiece('h', 7, new Pawn(Tab, Color.Black));
         }
     }
 }

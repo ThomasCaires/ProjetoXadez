@@ -38,7 +38,7 @@
             }
             return false;
         }
-        public bool CanMoveTo(Position pos)
+        public bool CanMoveTo(Position pos)//CanMoveTo==movimentopossivel
         {
             return PosibleMov()[pos.Line,pos.Column];
         }
