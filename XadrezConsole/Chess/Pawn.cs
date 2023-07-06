@@ -5,8 +5,10 @@ namespace Chess
 {
     internal class Pawn : ChessPiece
     {
-        public Pawn(Table Tab, Color color) : base(Tab, color)
+        private ChessCore Core;
+        public Pawn(Table Tab, Color color, ChessCore core) : base(Tab, color)
         {
+            Core = core;
         }
         public override string ToString()
         {
@@ -56,6 +58,20 @@ namespace Chess
                 {
                     mat[pos.Line, pos.Column] = true;
                 }
+                //En Passant
+                if (Position.Line == 3)
+                {
+                    Position esquerda = new Position(Position.Line, Position.Column - 1);
+                    if (Tab.ValidPosition(esquerda) && existeInimigo(esquerda) && Tab.Piece(esquerda) == Core.Vulneravelenpassant)
+                    {
+                        mat[esquerda.Line, esquerda.Column] = true;
+                    }
+                    Position direita = new Position(Position.Line, Position.Column + 1);
+                    if (Tab.ValidPosition(direita) && existeInimigo(direita) && Tab.Piece(direita) == Core.Vulneravelenpassant)
+                    {
+                        mat[direita.Line, direita.Column] = true;
+                    }
+                }
             }
             else
             {
@@ -73,12 +89,26 @@ namespace Chess
                 pos.DefinirValores(Position.Line + 1, Position.Column - 1);
                 if (Tab.ValidPosition(pos) && existeInimigo(pos))
                 {
-                    mat[pos.Line, pos.Column] = true;
+                    mat[pos.Line - 1, pos.Column] = true;
                 }
                 pos.DefinirValores(Position.Line + 1, Position.Column + 1);
                 if (Tab.ValidPosition(pos) && existeInimigo(pos))
                 {
-                    mat[pos.Line, pos.Column] = true;
+                    mat[pos.Line - 1, pos.Column] = true;
+                }
+                //En Passant
+                if (Position.Line == 4)
+                {
+                    Position esquerda = new Position(Position.Line, Position.Column - 1);
+                    if (Tab.ValidPosition(esquerda) && existeInimigo(esquerda) && Tab.Piece(esquerda) == Core.Vulneravelenpassant)
+                    {
+                        mat[esquerda.Line + 1, esquerda.Column] = true;
+                    }
+                    Position direita = new Position(Position.Line, Position.Column + 1);
+                    if (Tab.ValidPosition(direita) && existeInimigo(direita) && Tab.Piece(direita) == Core.Vulneravelenpassant)
+                    {
+                        mat[direita.Line + 1, direita.Column] = true;
+                    }
                 }
             }
             return mat;
