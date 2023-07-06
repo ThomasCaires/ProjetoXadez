@@ -56,32 +56,33 @@ namespace Chess
                 {
                     mat[pos.Line, pos.Column] = true;
                 }
-                else
+            }
+            else
+            {
+                pos.DefinirValores(Position.Line + 1, Position.Column);
+                if (Tab.ValidPosition(pos) && livre(pos))
                 {
-                    pos.DefinirValores(Position.Line + 1, Position.Column);
-                    if (Tab.ValidPosition(pos) && livre(pos))
-                    {
-                        mat[pos.Line, pos.Column] = true;
-                    }
-                    pos.DefinirValores(Position.Line + 2, Position.Column);
-                    Position p = new Position(Position.Line + 1, Position.Column);
-                    if (Tab.ValidPosition(p) && livre(p) && Tab.ValidPosition(pos) && livre(pos) && QteMovimentos == 0)
-                    {
-                        mat[pos.Line, pos.Column] = true;
-                    }
-                    pos.DefinirValores(Position.Line + 1, Position.Column - 1);
-                    if (Tab.ValidPosition(pos) && existeInimigo(pos))
-                    {
-                        mat[pos.Line, pos.Column] = true;
-                    }
-                    pos.DefinirValores(Position.Line + 1, Position.Column + 1);
-                    if (Tab.ValidPosition(pos) && existeInimigo(pos))
-                    {
-                        mat[pos.Line, pos.Column] = true;
-                    }
+                    mat[pos.Line, pos.Column] = true;
+                }
+                pos.DefinirValores(Position.Line + 2, Position.Column);
+                Position p = new Position(Position.Line + 1, Position.Column);
+                if (Tab.ValidPosition(p) && livre(p) && Tab.ValidPosition(pos) && livre(pos) && QteMovimentos == 0)
+                {
+                    mat[pos.Line, pos.Column] = true;
+                }
+                pos.DefinirValores(Position.Line + 1, Position.Column - 1);
+                if (Tab.ValidPosition(pos) && existeInimigo(pos))
+                {
+                    mat[pos.Line, pos.Column] = true;
+                }
+                pos.DefinirValores(Position.Line + 1, Position.Column + 1);
+                if (Tab.ValidPosition(pos) && existeInimigo(pos))
+                {
+                    mat[pos.Line, pos.Column] = true;
                 }
             }
             return mat;
         }
+
     }
 }

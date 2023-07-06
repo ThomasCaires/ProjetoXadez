@@ -39,6 +39,24 @@ namespace Chess
             {
                 Captured.Add(pecaCapturada);
             }
+            //Roque pequeno
+            if (p is King && Destination.Column == Origin.Column + 2)
+            {
+                Position origint = new Position(Origin.Line, Origin.Column + 3);
+                Position destt = new Position(Origin.Line, Origin.Column + 1);
+                ChessPiece T = Tab.Retirarpeca(origint);
+                T.InclementMoviment();
+                Tab.ColocarPeca(T, destt);
+            }
+            //Roque grande
+            if (p is King && Destination.Column == Origin.Column - 2)
+            {
+                Position origint = new Position(Origin.Line, Origin.Column - 4);
+                Position destt = new Position(Origin.Line, Origin.Column - 1);
+                ChessPiece T = Tab.Retirarpeca(origint);
+                T.InclementMoviment();
+                Tab.ColocarPeca(T, destt);
+            }
             return pecaCapturada;
         }
         public void desfazMovimento(Position origem, Position destino, ChessPiece pecaCapturada)
@@ -49,6 +67,24 @@ namespace Chess
             {
                 Tab.ColocarPeca(pecaCapturada, destino);
                 Captured.Remove(pecaCapturada);
+            }
+            //Roque pequeno
+            if (p is King && destino.Column == origem.Column + 2)
+            {
+                Position origint = new Position(origem.Line, origem.Column + 3);
+                Position destt = new Position(origem.Line, origem.Column + 1);
+                ChessPiece T = Tab.Retirarpeca(destt);
+                T.DenclementMoviment();
+                Tab.ColocarPeca(T, origint);
+            }
+            //Roque grande
+            if (p is King && destino.Column == origem.Column - 2)
+            {
+                Position origint = new Position(origem.Line, origem.Column - 4);
+                Position destt = new Position(origem.Line, origem.Column - 1);
+                ChessPiece T = Tab.Retirarpeca(destt);
+                T.DenclementMoviment();
+                Tab.ColocarPeca(T, origint);
             }
             Tab.ColocarPeca(p, origem);
         }
@@ -222,7 +258,7 @@ namespace Chess
             PutNewPiece('b', 1, new Knight(Tab, Color.White));
             PutNewPiece('c', 1, new Bishop(Tab, Color.White));
             PutNewPiece('d', 1, new Queen(Tab, Color.White));
-            PutNewPiece('e', 1, new King(Tab, Color.White));
+            PutNewPiece('e', 1, new King(Tab, Color.White, this));
             PutNewPiece('f', 1, new Bishop(Tab, Color.White));
             PutNewPiece('g', 1, new Knight(Tab, Color.White));
             PutNewPiece('h', 1, new Rook(Tab, Color.White));
@@ -239,7 +275,7 @@ namespace Chess
             PutNewPiece('b', 8, new Knight(Tab, Color.Black));
             PutNewPiece('c', 8, new Bishop(Tab, Color.Black));
             PutNewPiece('d', 8, new Queen(Tab, Color.Black));
-            PutNewPiece('e', 8, new King(Tab, Color.Black));
+            PutNewPiece('e', 8, new King(Tab, Color.Black, this));
             PutNewPiece('f', 8, new Bishop(Tab, Color.Black));
             PutNewPiece('g', 8, new Knight(Tab, Color.Black));
             PutNewPiece('h', 8, new Rook(Tab, Color.Black));
